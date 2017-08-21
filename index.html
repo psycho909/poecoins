@@ -95,9 +95,7 @@
 						if(this.options[i].active){
 							if(this.options[2].no > this.options[i].no){
 								return ((1/this.options[i].nums)*tradecoin*this.num).toFixed(2)
-							}else if(this.options[2].no == this.options[i].no){
-								return ((this.options[i].nums)*(tradecoin)*this.num).toFixed(2)
-							}else if(this.options[2].no < this.options[i].no){
+							}else if(this.options[2].no <= this.options[i].no){
 								return ((this.options[i].numss)*(tradecoin)*this.num).toFixed(2)
 							}
 						}
