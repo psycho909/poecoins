@@ -1,0 +1,110 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<title>POE貨幣</title>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css">
+	<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+	</script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.4.2/vue.js"></script>
+	<style>
+		*{
+			padding: 0;
+			margin: 0;
+		}
+		html,body{
+			font-family: 微軟正黑體;
+		}
+		.bd{
+			background-color: #563d7c;
+			color:#fff;
+		}
+	</style>
+</head>
+<body>
+	<div id="app">
+		<div class="container">
+			<div class="row">
+				<div class="col bd mb-3">
+					<div class="title px-3 py-5">
+						<h3>POE貨幣</h3>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="container">
+			<div class="row">
+				<div class="col-6 col-md-6">
+					<div class="form-group row my-2">
+						<div class="col-3 col-md-3">
+							<select name="" id="" class="custom-select" v-model="selected" v-on:change="optionSelect">
+								<option value="請選擇" disabled selected>請選擇</option>
+								<option v-for="option in options" v-bind:value="option.value" >{{option.text}}</option>
+							</select>
+						</div>
+						<div class="col-9 col-md-9">
+							<input type="text" class="form-control" v-model="num" placeholder="數量">
+						</div>
+					</div>
+				</div>
+				<div class="col-6 col-md-6">
+					<div class="row">
+						<div class="col-12 col-md-12 my-2" v-for="coin in options">
+							<div class="input-group">
+								<span class="input-group-addon">{{coin.text}}</span>
+								<input type="text" class="form-control" v-bind:value="chaousCoin(coin.nums)">
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<script>
+		var vm=new Vue({
+			el:"#app",
+			data:{
+				num:1,
+				selected:'請選擇',
+				options:[
+					{no:1,text:'鏈結石',value:'fusing',nums:2.5,active:false,numss:2.5},
+					{no:2,text:'點金石',value:'alchemy',nums:2,active:false,numss:2},
+					{no:3,text:'混沌石',value:'chaous',nums:1,active:false,numss:1},
+					{no:4,text:'富豪石',value:'regal',nums:1/15,active:false,numss:15},
+					{no:5,text:'神聖石',value:'divine',nums:1/20,active:false,numss:20},
+					{no:6,text:'崇高石',value:'exalted',nums:1/75,active:false,numss:75}
+				]
+			},
+			methods:{
+				optionSelect:function(){
+					for(var i=0;i<this.options.length;i++){
+						if(this.selected == this.options[i].value){
+							this.options[i].active=true
+						}else{
+							this.options[i].active=false
+						}
+					}
+				},
+				chaousCoin:function(tradecoin){
+					for(var i=0;i<this.options.length;i++){
+						if(this.options[i].active){
+							if(this.options[2].no > this.options[i].no){
+								return ((1/this.options[i].nums)*tradecoin*this.num).toFixed(2)
+							}else if(this.options[2].no == this.options[i].no){
+								return ((this.options[i].nums)*(tradecoin)*this.num).toFixed(2)
+							}else if(this.options[2].no < this.options[i].no){
+								return ((this.options[i].numss)*(tradecoin)*this.num).toFixed(2)
+							}
+						}
+					}
+				},
+			}
+		})
+	</script>
+</body>
+</html>
