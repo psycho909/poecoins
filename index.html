@@ -57,7 +57,7 @@
 						<div class="col-12 col-md-12 my-2" v-for="coin in options">
 							<div class="input-group">
 								<span class="input-group-addon">{{coin.text}}</span>
-								<input type="text" class="form-control" v-bind:value="chaousCoin(coin.nums)">
+								<input type="text" class="form-control" v-bind:value="tradeCoins(coin.nums)">
 							</div>
 						</div>
 					</div>
@@ -90,7 +90,7 @@
 						}
 					}
 				},
-				chaousCoin:function(tradecoin){
+				tradeCoins:function(tradecoin){
 					for(var i=0;i<this.options.length;i++){
 						if(this.options[i].active){
 							if(this.options[2].no > this.options[i].no){
