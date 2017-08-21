@@ -24,6 +24,14 @@
 			background-color: #563d7c;
 			color:#fff;
 		}
+		.setting-box{
+			height: 0px;
+			overflow: hidden;
+			transition:all .5s;
+		}
+		.setting-box.active{
+			height: 274px;
+		}
 	</style>
 </head>
 <body>
@@ -39,7 +47,7 @@
 		</div>
 		<div class="container">
 			<div class="row">
-				<div class="col-6 col-md-6">
+				<div class="col-12 col-md-6 col-sm-12">
 					<div class="form-group row my-2">
 						<div class="col-3 col-md-3">
 							<select name="" id="" class="custom-select" v-model="selected" v-on:change="optionSelect">
@@ -51,13 +59,27 @@
 							<input type="text" class="form-control" v-model="num" placeholder="請輸入數量">
 						</div>
 					</div>
+					<div class="row">
+						<div class="col-12">
+							<button class="btn btn-primary w-100" v-on:click="settingBtn()">自己設定</button>
+						</div>
+						<div class="col-12 setting-box">
+							<div class="row my-2">
+								<div class="col-6 col-md-6 form-group px-3" v-for="change in options">
+									<label v-bind:for="change.value">{{change.text}}</label>
+									<input v-bind:id="change.value" type="text" v-model="change.total" class="form-control">
+								</div>
+							</div>
+						</div>
+					</div>
 				</div>
-				<div class="col-6 col-md-6">
+				<div class="col-126 col-md-6 col-sm-12">
 					<div class="row">
 						<div class="col-12 col-md-12 my-2" v-for="coin in options">
 							<div class="input-group">
 								<span class="input-group-addon">{{coin.text}}</span>
-								<input type="text" class="form-control" v-bind:value="tradeCoins(coin.nums)">
+								<input type="text" class="form-control" v-if="coin.no >= 3"  v-bind:value="tradeCoins(1/coin.total)">
+								<input type="text" class="form-control" v-else  v-bind:value="tradeCoins(coin.total)">
 							</div>
 						</div>
 					</div>
@@ -72,15 +94,19 @@
 				num:'',
 				selected:'請選擇',
 				options:[
-					{no:1,text:'鏈結石',value:'fusing',nums:2.5,active:false,numss:2.5},
-					{no:2,text:'點金石',value:'alchemy',nums:2,active:false,numss:2},
-					{no:3,text:'混沌石',value:'chaous',nums:1,active:false,numss:1},
-					{no:4,text:'富豪石',value:'regal',nums:1/15,active:false,numss:15},
-					{no:5,text:'神聖石',value:'divine',nums:1/20,active:false,numss:20},
-					{no:6,text:'崇高石',value:'exalted',nums:1/75,active:false,numss:75}
+					{no:1,text:'鏈結石',value:'fusing',active:false,total:2.5},
+					{no:2,text:'點金石',value:'alchemy',active:false,total:2},
+					{no:3,text:'混沌石',value:'chaous',active:false,total:1},
+					{no:4,text:'富豪石',value:'regal',active:false,total:15},
+					{no:5,text:'神聖石',value:'divine',active:false,total:20},
+					{no:6,text:'崇高石',value:'exalted',active:false,total:75}
 				]
 			},
 			methods:{
+				settingBtn:function(){
+					$('.setting-box').toggleClass('active')
+					
+				},
 				optionSelect:function(){
 					for(var i=0;i<this.options.length;i++){
 						if(this.selected == this.options[i].value){
@@ -94,13 +120,13 @@
 					for(var i=0;i<this.options.length;i++){
 						if(this.options[i].active){
 							if(this.options[2].no > this.options[i].no){
-								return ((1/this.options[i].nums)*tradecoin*this.num).toFixed(2)
+								return ((1/this.options[i].total)*tradecoin*this.num).toFixed(2)
 							}else if(this.options[2].no <= this.options[i].no){
-								return ((this.options[i].numss)*(tradecoin)*this.num).toFixed(2)
+								return ((this.options[i].total)*(tradecoin)*this.num).toFixed(2)
 							}
 						}
 					}
-				},
+				}
 			}
 		})
 	</script>
